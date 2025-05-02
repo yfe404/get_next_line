@@ -16,7 +16,7 @@ char	*get_next_line(const int fd)
 	c = '\0';
 	line = malloc(BUFF_SIZE);
 	bytes_read = read(fd, &c, 1);
-	if (bytes_read < 0)
+	if (bytes_read <= 0)
 	{
 		free(line);
 		return NULL;
