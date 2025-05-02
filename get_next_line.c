@@ -25,7 +25,8 @@ char	*get_next_line(const int fd)
 	{
 		if (c == '\n' || bytes_read == 0) 
 		{
-			line[count++] = '\n';
+			if (bytes_read)
+				line[count++] = '\n';
 			line[count] = '\0';
 			return line;
 		}
