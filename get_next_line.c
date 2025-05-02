@@ -3,27 +3,43 @@
 #include <stdlib.h>
 #include "get_next_line.h"
 
-int	get_next_line(const int fd, char **line)
+char	*get_next_line(const int fd)
 {
-	int count;
-	char c;
+	int 	count;
+	int		bytes_read;
+	char	*line;
+	char 	c;
 
-	*line = malloc(BUFF_SIZE);
-
+	if (fd < 0)
+		return NULL;
 	count = 0;
-	while (read(fd, &c, 1))
+	c = '\0';
+	line = malloc(BUFF_SIZE);
+	bytes_read = read(fd, &c, 1);
+	if (bytes_read < 0)
 	{
-		if (c == '\n') 
-		{
-			(*line)[count] = '\0';
-			return 1;
-		}
-		(*line)[count++] = c;
-		
-		if (count >= BUFF_SIZE)
-			return -1;
+		free(line);
+		return NULL;
 	}
-	return 0;
+	while (bytes_read >= 0)
+	{
+		if (c == '\n' || bytes_read == 0) 
+		{
+			line[count++] = '\n';
+			line[count] = '\0';
+			return line;
+		}
+		line[count++] = c;
+		bytes_read = read(fd, &c, 1);
+
+		if (count >= BUFF_SIZE)
+		{
+			free (line);
+			return NULL;
+		}
+	}
+	free(line);
+	return NULL;
 }
 
 
