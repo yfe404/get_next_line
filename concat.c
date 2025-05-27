@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 
 #include <stdio.h>
 
@@ -21,11 +22,34 @@ char *concat(char *buff, char *addme, size_t s_buff, size_t s_addme)
 	return (newbuff);
 }
 
+char * extract_line(char *buff, char **next_line, int s_buff, int pos)
+{
+	int tmp;
+	char	*newbuff;
+
+	tmp = 0;
+	*next_line = malloc(pos + 2);
+	newbuff = malloc(s_buff - pos);
+	while(tmp <= pos)
+	{
+		(*next_line)[tmp] = buff[tmp];
+		tmp++;
+	}
+	(*next_line)[tmp] = '\0';
+	while (tmp < s_buff)
+	{
+		newbuff[tmp - pos - 1] = buff[tmp];
+		tmp++;
+	}
+	free(buff);
+	return newbuff;
+}
 
 int main()
 {
 	char *buff;
 	char *addme;
+	char *next_line;
 
 	buff = malloc(2);
 	addme = malloc(4);
@@ -39,8 +63,14 @@ int main()
 	addme[3] = 'i';
 
 	buff = concat(buff, addme, 2, 4);
-	printf("%s\n", buff);
-	free(buff);
+	printf("Buffer after concat: %s\n", buff);
 
+	buff = extract_line(buff, &next_line, 6, 2);
+	printf("Next line: %s\n", next_line);
+	printf("Remaining buffer: ");
+	fflush(stdout);
+	write(STDOUT_FILENO, buff, 3);
+
+	free(buff);
 
 }
