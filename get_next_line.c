@@ -6,7 +6,7 @@
 /*   By: yfeunteu <yfeunteu@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:08:03 by yfeunteu          #+#    #+#             */
-/*   Updated: 2025/05/31 08:57:50 by yfeunteu         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:10:24 by yfeunteu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,22 +23,22 @@ int		read_next(int fd, t_buffer *b, char **new_line);
 
 char	*get_next_line(int fd)
 {
-	static t_buffer	b = {0, NULL};
+	static t_buffer	b[MAX_FD] = {0};
 	char			*new_line;
 	int				nl_pos;
 
 	nl_pos = -1;
 	while (1)
 	{
-		nl_pos = has_next_line(&b);
+		nl_pos = has_next_line(&b[fd]);
 		new_line = NULL;
 		if (nl_pos >= 0)
 		{
-			b.dat = extract_line(b.dat, &new_line, b.s_dat, nl_pos);
-			b.s_dat -= nl_pos + 1;
+			b[fd].dat = extract_line(b[fd].dat, &new_line, b[fd].s_dat, nl_pos);
+			b[fd].s_dat -= nl_pos + 1;
 			break ;
 		}
-		if (!read_next(fd, &b, &new_line))
+		if (!read_next(fd, &b[fd], &new_line))
 			break ;
 	}
 	return (new_line);
