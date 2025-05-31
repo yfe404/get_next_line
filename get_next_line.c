@@ -6,7 +6,7 @@
 /*   By: yfeunteu <yfeunteu@student.42prague.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 23:08:03 by yfeunteu          #+#    #+#             */
-/*   Updated: 2025/05/31 09:10:24 by yfeunteu         ###   ########.fr       */
+/*   Updated: 2025/05/31 09:31:42 by yfeunteu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ char	*get_next_line(int fd)
 	char			*new_line;
 	int				nl_pos;
 
+	if (BUFFER_SIZE <= 0)
+		return (NULL);
 	nl_pos = -1;
 	while (1)
 	{
