@@ -14,7 +14,7 @@
 #include <string.h>
 #include <fcntl.h>
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int		has_next_line(t_buffer *buffer);
 char	*extract_line(char *buff, char **next_line, int s_buff, int pos);

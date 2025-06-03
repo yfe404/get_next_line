@@ -12,7 +12,7 @@
 
 #include <stdlib.h>
 #include <unistd.h>
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*concat(char *buff, char *addme, size_t s_buff, size_t s_addme)
 {
